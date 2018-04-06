@@ -7,19 +7,19 @@ diry(0)
 {
     piece data;
     data.x = 0;
-    data.y = 0;
+    data.y = piece_radius;
     body.push_back(data);
     data.x = 0;
-    data.y = 0-2*piece_radius;
+    data.y += 0-2*piece_radius;
     body.push_back(data);
     data.x = 0;
-    data.y = 0-4*piece_radius;
+    data.y += 0-2*piece_radius;
     body.push_back(data);
     data.x = 0;
-    data.y = 0-6*piece_radius;
+    data.y += 0-2*piece_radius;
     body.push_back(data);
     data.x = 0;
-    data.y = 0-8*piece_radius;
+    data.y += 0-2*piece_radius;
     body.push_back(data);
 }
 
@@ -34,6 +34,26 @@ void snake::growup(){
     data.y = body[index-1].last_y;
     body.push_back(data);
 }
+void snake::reset(){
+    piece data;
+    body.clear();
+    data.x = 0;
+    data.y = piece_radius;
+    body.push_back(data);
+    data.x = 0;
+    data.y += 0-2*piece_radius;
+    body.push_back(data);
+    data.x = 0;
+    data.y += 0-2*piece_radius;
+    body.push_back(data);
+    data.x = 0;
+    data.y += 0-2*piece_radius;
+    body.push_back(data);
+    data.x = 0;
+    data.y += 0-2*piece_radius;
+    body.push_back(data);
+}
+
 
 void snake::update(){
     for(unsigned int i=0;i<body.size();i++){
@@ -58,20 +78,35 @@ void snake::update(){
   }
 }
 void snake::set_move_dir(int speedx,int speedy){
-
-    this->dirx = speedx;
-    this->diry = speedy;
+    if(speedx == -1*dirx && speedx!=0){
+         diry = speedy;
+    }else{
+        dirx = speedx;
+    }
+    if(speedy == -1*diry && speedy!=0){
+         dirx = speedx;
+    }else{
+        diry = speedy;
+    }
 }
 
 void snake::plot(){
-    for( std::vector<piece>::iterator it = body.begin();it!=body.end();it++){
+    for( unsigned int j=0;j<body.size();j++){
          glBegin(GL_LINE_LOOP);
          for (unsigned int i=0; i < 360; i++)
          {
             float degInRad = 3.14169/180*i;
-            glColor3f(1.f, 1.f, 1.f);
-            glVertex2f((*it).x+cos(degInRad)*piece_radius,(*it).y+sin(degInRad)*piece_radius);
+            if(j==0){
+                glColor3f(0.f, 0.f, 1.f);
+            }else if(j== body.size()-1){
+                glColor3f(1.0f, 1.0f, 0.0f);
+            }else{
+                glColor3f(1.f, 1.f, 1.f);
+            }
+
+            glVertex2f(body[j].x+cos(degInRad)*piece_radius,body[j].y+sin(degInRad)*piece_radius);
          }
+
          glEnd();
     }
 }

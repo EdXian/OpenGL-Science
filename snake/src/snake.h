@@ -31,12 +31,14 @@ public:
 
    int get_body_length();
 
+
    void growup();
+   void reset();
    void update();
    void plot();
 private:
     unsigned int  body_length;
-     int  dirx,diry;
+    int  dirx,diry;
 
 
 
